@@ -1,2 +1,2 @@
 # CLangBook_KnR
-Solutions to The C Programming Language by Kernigan &amp; Ritch
+Solutions to The C Programming Language by Kernigan &amp; Ritchie
