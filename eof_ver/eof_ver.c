@@ -1,3 +1,9 @@
+/* Page 17  
+ * Exercise 1-6 & 1-7
+ *
+ */
+
+
 #include <stdio.h>
 
 int main(int argc, char **argv) {
