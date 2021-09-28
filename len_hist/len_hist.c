@@ -23,7 +23,25 @@
 #define BUCKET_LEN 20
 int buckets[BUCKET_LEN];
 
+#define BAR_CHAR '#'//(char)176
+#define MAX_HEIGHT 30
+
+int find_max(int arr[], int len) {
+    int result = (1 << (sizeof(int)*8 - 1));
+    for(int i = 0; i < len; i++) {
+        if(result < arr[i]){
+            result = arr[i];
+        }
+    }
+    return result;
+}
+
+
 int main(int argc, char **argv) {
+    for(int i = 0; i < BUCKET_LEN; i++) {
+        buckets[i] = 0;
+    }
+    
     FILE *input;
     if(argc > 1) {
         input = fopen(argv[1], "r");
@@ -64,9 +82,50 @@ int main(int argc, char **argv) {
             } 
         } 
     }
+
+    int total = 0;
+    for(int i = 0; i < BUCKET_LEN; i++) {
+        total += buckets[i];
+    }
+
+    int max = find_max(buckets, BUCKET_LEN);
+    int fraction[BUCKET_LEN];
+    for(int i = 0; i < BUCKET_LEN; i++) {
+        if(buckets[i] > 0) {
+            fraction[i] = ((float)buckets[i] * MAX_HEIGHT)/ max;
+        } else { 
+            fraction[i] = 0;
+        }
+    }
+    printf("\n");
+
+    for(int i = MAX_HEIGHT; i > 0; i--) {
+        for(int j = 0; j < BUCKET_LEN; j++) {
+            char fill = ' ';
+            if(fraction[j] >= i) {
+                fill = BAR_CHAR;
+            } 
+            for(int k = 0; k < 3; k++) {
+                printf("%c", fill);
+            }
+            printf("\t");
+        }
+        printf("\n");
+    }
+    printf("\n");
+    
     for(int i = 0; i < BUCKET_LEN; i++) {
         if(buckets[i] > 0) {
             printf("%d\t", buckets[i]);
+        }
+    }
+    printf("\n");
+    
+    float percent;
+    for(int i = 0; i < BUCKET_LEN; i++) {
+        if(buckets[i] > 0) {
+            percent = (float)buckets[i] / total; 
+            printf("%.2f%c\t", percent*100, '%');
         }
     }
     printf("\n");
@@ -76,6 +135,7 @@ int main(int argc, char **argv) {
             printf("%d\t", i+1);
         }
     }
+
     fclose(input);
     return 0;
 }
