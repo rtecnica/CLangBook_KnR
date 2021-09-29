@@ -21,7 +21,6 @@
 #define NUM_HI 57
 
 #define BUCKET_LEN 20
-int buckets[BUCKET_LEN];
 
 #define BAR_CHAR '#'//(char)176
 #define MAX_HEIGHT 30
@@ -38,6 +37,7 @@ int find_max(int arr[], int len) {
 
 
 int main(int argc, char **argv) {
+    int *buckets = malloc(BUCKET_LEN * sizeof(int));
     for(int i = 0; i < BUCKET_LEN; i++) {
         buckets[i] = 0;
     }
@@ -48,9 +48,10 @@ int main(int argc, char **argv) {
     } else {
         return 1;
     }
+    
     uint8_t word_state = OUT_WORD;
     int word_len = 0;
-    char cursor;
+    char cursor = 'c';
     while(cursor != EOF) {
         cursor = getc(input);
         if((cursor >= UC_LO) && (cursor <= UC_HI)){
@@ -69,7 +70,9 @@ int main(int argc, char **argv) {
             //add word to bucket
             if(word_state){
                 word_state = OUT_WORD;
-                buckets[word_len - 1]++;
+                if(BUCKET_LEN > word_len - 1) {
+                    buckets[word_len - 1]++;
+                }
                 word_len = 0;
             }
         }
@@ -77,7 +80,9 @@ int main(int argc, char **argv) {
             //add word to bucket
             if(word_state){
                 word_state = OUT_WORD;
-                buckets[word_len - 1]++;
+                if(BUCKET_LEN > word_len - 1) {
+                    buckets[word_len - 1]++;
+                }
                 word_len = 0;
             } 
         } 
@@ -87,7 +92,7 @@ int main(int argc, char **argv) {
     for(int i = 0; i < BUCKET_LEN; i++) {
         total += buckets[i];
     }
-
+    
     int max = find_max(buckets, BUCKET_LEN);
     int fraction[BUCKET_LEN];
     for(int i = 0; i < BUCKET_LEN; i++) {
@@ -102,13 +107,15 @@ int main(int argc, char **argv) {
     for(int i = MAX_HEIGHT; i > 0; i--) {
         for(int j = 0; j < BUCKET_LEN; j++) {
             char fill = ' ';
-            if(fraction[j] >= i) {
-                fill = BAR_CHAR;
-            } 
-            for(int k = 0; k < 3; k++) {
-                printf("%c", fill);
+            if(buckets[j] > 0) {
+                if(fraction[j] >= i) {
+                    fill = BAR_CHAR;
+                } 
+                for(int k = 0; k < 3; k++) {
+                    printf("%c", fill);
+                }
+                printf("\t");
             }
-            printf("\t");
         }
         printf("\n");
     }
@@ -137,5 +144,6 @@ int main(int argc, char **argv) {
     }
 
     fclose(input);
+    free(buckets);
     return 0;
 }

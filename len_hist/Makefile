@@ -3,8 +3,8 @@ INCLUDES =
 LIBS =
 DEPS =
 TARGET = len_hist
-CFLAGS = -std=c11 -Wall -ggdb3
-BUILD_FLAGS = -std=c11 -w -ggdb3
+CFLAGS = -std=c11 -Wall -ggdb3 -O3
+BUILD_FLAGS = -std=c11 -w -ggdb3 -O3
 
 all: $(TARGET)
 
