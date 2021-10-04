@@ -54,3 +54,7 @@ dkms.conf
 # automated tags
 *tags
 *tags.*
+
+#Generated execs
+*bin/*
+*misc/*
