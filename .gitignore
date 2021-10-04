@@ -56,5 +56,5 @@ dkms.conf
 *tags.*
 
 #Generated execs
-*bin/*
-*misc/*
+**/bin/*
+**/misc/*
