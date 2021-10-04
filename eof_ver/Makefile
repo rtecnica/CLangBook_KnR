@@ -1,21 +1,28 @@
 CC = gcc
-INCLUDES =
+INCLUDES = 
 LIBS =
-DEPS =
+DEPS = 
 TARGET = eof_ver
-CFLAGS = -std=c11 -Wall -ggdb3
-BUILD_FLAGS = -std=c11 -w -ggdb3
+CFLAGS = -std=c11 -Wall -ggdb3 -O3
+BUILD_FLAGS = -std=c11 -w -ggdb3 -O3
+BUILD_DIR = bin
 
 all: $(TARGET)
 
-$(TARGET): $(TARGET).c
-	$(CC) $(INCLUDES) -o $(TARGET) $(CFLAGS) $(TARGET).c $(DEPS) $(LIBS)
+$(TARGET): $(BUILD_DIR) $(TARGET).c
+	$(CC) $(INCLUDES) -o ./$(BUILD_DIR)/$(TARGET) $(CFLAGS) $(TARGET).c $(DEPS) $(LIBS)
+
+$(BUILD_DIR):
+	mkdir $(BUILD_DIR)
 
 build: $(TARGET).c
-	$(CC) $(INCLUDES) -o $(TARGET) $(BUILD_FLAGS) $(TARGET).c $(DEPS) $(LIBS)
+	$(CC) $(INCLUDES) -o ./$(BUILD_DIR)/$(TARGET) $(BUILD_FLAGS) $(TARGET).c $(DEPS) $(LIBS)
 
 try: $(TARGET)
 	./$(TARGET)
 
 clean: 
 	rm $(TARGET)
+
+clean-all:
+	rm -r $(BUILD_DIR)
