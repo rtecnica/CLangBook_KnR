@@ -3,7 +3,10 @@ typedef enum bracket {
     curly,
     brack,
     squote,
-    dqoute
+    dquote,
+    fslash,
+    bslash,
+    none
 } bracket_t;
 
 typedef struct snode {
