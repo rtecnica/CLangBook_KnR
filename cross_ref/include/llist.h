@@ -34,9 +34,12 @@ void llist_push(struct llist *list, void *item);
 
 void *llist_pop(struct llist *list, llside side);
 
-void llist_insert(struct llist *list, void* item, llside side);
+void *llist_select(struct llist *list, void* item, int (*compare_fn)(void *item1, void *item2));
 
-void llist_sort(struct llist *list, int (*compare_fn)(void *item1, void *item2));
+void llist_bubble_sort(struct llist *list, int (*compare_fn)(void *item1, void *item2));
+
+void llist_quick_sort(struct llist *list, int (*compare_fn)(void *item1, void *item2));
+
 
 void llist_free(struct llist *list);
 
