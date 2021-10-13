@@ -112,7 +112,6 @@ int main(int argc, char **argv) {
         ptr = ptr->next;
     }
    
-    printf("word list length: %d\n", list.length);
     int page_cnt = 0;
     ptr = list.head;
     while(ptr != NULL) {
@@ -120,10 +119,7 @@ int main(int argc, char **argv) {
         llist_deinit(((struct word_t *)ptr->item)->pages);
         ptr = ptr->next;
     }
-    printf("\n");
-    printf("page count: %d\n", page_cnt);
     llist_deinit(list);
-    printf("\n");
     return 0;
     
 }

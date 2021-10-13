@@ -1,7 +1,7 @@
 SRC_DIR = src
 INCLUDE_DIR = include
 BUILD_DIR = bin
-CC = gcc
+CC = gcc 
 INCLUDES = $(wildcard $(INCLUDE_DIR)/*.h)
 LIBS =
 DEPS = $(wildcard $(SRC_DIR)/*.c)

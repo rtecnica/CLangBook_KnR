@@ -10,8 +10,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int frees = 0;
-
 struct llist llist_init() {
     struct llist list;
     list.length = 0;
@@ -83,9 +81,6 @@ void *llist_pop(struct llist *list, llside side) {
 
     if(old != NULL) {
         free(old);
-        frees++;
-        printf("\r%d", frees);
-        fflush(stdout);
     }
     
     return item;
