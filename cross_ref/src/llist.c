@@ -22,10 +22,9 @@ struct llist llist_init() {
 
 void llist_deinit(struct llist list) {
     void *ptr = llist_pop(&list, head);
-    free(ptr);
     while(ptr != NULL) {
-        ptr = llist_pop(&list, head);
         free(ptr);
+        ptr = llist_pop(&list, head);
     }
     
     if(list.head == NULL && list.tail == NULL) {
