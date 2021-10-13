@@ -10,24 +10,29 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-struct llist *llist_init() {
-    struct llist *list = malloc(sizeof(llist));
-    list->length = 0;
-    list->head = NULL;
-    list->tail = NULL;
+int frees = 0;
+
+struct llist llist_init() {
+    struct llist list;
+    list.length = 0;
+    list.head = NULL;
+    list.tail = NULL;
     return list;
 }    
 
-void llist_deinit(struct llist *list) {
-    void *ptr = llist_pop(list, head);
+void llist_deinit(struct llist list) {
+    void *ptr = llist_pop(&list, head);
+    free(ptr);
     while(ptr != NULL) {
-        ptr = llist_pop(list, head);
+        ptr = llist_pop(&list, head);
+        free(ptr);
     }
     
-    if(list->head == NULL && list->tail == NULL) {
-        printf("Freeing empty list!\n");
+    if(list.head == NULL && list.tail == NULL) {
+        return;
+    } else {
+        printf("Something went wrong!");
     }
-    free(list);
 }
 
 void llist_push(struct llist *list, void *item) {
@@ -79,6 +84,9 @@ void *llist_pop(struct llist *list, llside side) {
 
     if(old != NULL) {
         free(old);
+        frees++;
+        printf("\r%d", frees);
+        fflush(stdout);
     }
     
     return item;
@@ -88,7 +96,7 @@ void *llist_select(struct llist *list, void* item, int (*compare_fn)(void *item1
     struct lnode *ptr = list->head;
    
     while(ptr != NULL) {
-        if(!compare_fn(ptr->item, item)) {
+        if(compare_fn(ptr->item, item) == 0) {
             break;  
         }
         ptr = ptr->next;
@@ -111,7 +119,7 @@ void llist_bubble_sort(struct llist *list, int (*compare_fn)(void *item1, void *
         ptr = ptr->next;
         i++;
     }
-
+    
     int swapped_this_pass = 1;
     while(swapped_this_pass) {
         swapped_this_pass = 0;

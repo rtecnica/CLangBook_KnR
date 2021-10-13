@@ -26,9 +26,9 @@ typedef enum llside {
     tail
 } llside;
 
-struct llist *llist_init();
+struct llist llist_init();
 
-void llist_deinit(struct llist *list); 
+void llist_deinit(struct llist list); 
 
 void llist_push(struct llist *list, void *item);
 
