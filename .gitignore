@@ -73,3 +73,7 @@ Cargo.lock
 
 # TAGS
 **/tags
+
+# Treesitter stuff
+**/node_modules
+**/package*
