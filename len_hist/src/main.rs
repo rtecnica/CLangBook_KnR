@@ -55,7 +55,7 @@ fn main() -> std::io::Result<()> {
             if let Some(val) = buckets.get(&n) {
                 let bar_height = (*val as f32 / *buckets.values().max().unwrap_or(&1) as f32 * BAR_HEIGHT as f32) as u8;
                 if bar_height >= (BAR_HEIGHT - b) {
-                    print!("{} {} {}\t", BAR_TOKEN, BAR_TOKEN, BAR_TOKEN);
+                    print!("{}{}{}\t", BAR_TOKEN, BAR_TOKEN, BAR_TOKEN);
                 } else {
                     print!("   \t");
                 }
