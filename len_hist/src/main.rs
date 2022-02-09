@@ -5,7 +5,7 @@ use std::io::prelude::*;
 use std::collections::HashMap;
 
 const BAR_HEIGHT: u8 = 20;
-const BAR_TOKEN: char = 'ﱢ';
+const BAR_TOKEN: char = '#'; //'ﱢ';
 
 fn main() -> std::io::Result<()> {
     let args: Vec<String> = env::args().collect();
@@ -63,6 +63,7 @@ fn main() -> std::io::Result<()> {
         }
         println!();
     }
+    println!(); 
     for n in *buckets.keys().min().unwrap_or(&0)..*buckets.keys().max().unwrap_or(&0)+1 {
         if let Some(val) = buckets.get(&n) {
             print!("{}\t", val);
@@ -77,7 +78,6 @@ fn main() -> std::io::Result<()> {
         }
     }
     println!();
-    
     for n in *buckets.keys().min().unwrap_or(&0)..*buckets.keys().max().unwrap_or(&0)+1 {
         if let Some(_) = buckets.get(&n) {
             print!("{}\t", n);
