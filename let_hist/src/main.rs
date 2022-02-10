@@ -32,7 +32,6 @@ fn main() -> std::io::Result<()> {
             } else {
                 buckets.insert(c, 1);
             }
-            
             if holder != 0 {
                 buckets.insert(c, holder + 1); 
             }
