@@ -1,8 +1,8 @@
+use std::collections::HashMap;
 use std::env;
 use std::fs::File;
-use std::process;
 use std::io::prelude::*;
-use std::collections::HashMap;
+use std::process;
 
 const BAR_HEIGHT: u8 = 20;
 const BAR_TOKEN: char = '#'; //'ﱢ';
@@ -14,7 +14,7 @@ fn main() -> std::io::Result<()> {
         eprintln!("Please input filename!");
         process::exit(1);
     }
-    
+
     let mut file = File::open(&args[1])?;
 
     let mut buf = String::new();
@@ -22,7 +22,7 @@ fn main() -> std::io::Result<()> {
 
     //Init buckets
     let mut buckets: std::collections::HashMap<char, u32> = HashMap::new();
-    
+
     // use iterator to implement state machine
     for c in buf.chars() {
         if c.is_alphabetic() {
@@ -33,7 +33,7 @@ fn main() -> std::io::Result<()> {
                 buckets.insert(c, 1);
             }
             if holder != 0 {
-                buckets.insert(c, holder + 1); 
+                buckets.insert(c, holder + 1);
             }
         }
     }
@@ -46,7 +46,8 @@ fn main() -> std::io::Result<()> {
     for b in 0..BAR_HEIGHT {
         for n in ALPHABET.chars() {
             if let Some(val) = buckets.get(&n) {
-                let bar_height = (*val as f32 / *buckets.values().max().unwrap_or(&1) as f32 * BAR_HEIGHT as f32) as u8;
+                let bar_height = (*val as f32 / *buckets.values().max().unwrap_or(&1) as f32
+                    * BAR_HEIGHT as f32) as u8;
                 if bar_height >= (BAR_HEIGHT - b) {
                     print!("{}{}{}\t", BAR_TOKEN, BAR_TOKEN, BAR_TOKEN);
                 } else {
@@ -56,14 +57,14 @@ fn main() -> std::io::Result<()> {
         }
         println!();
     }
-    println!(); 
+    println!();
     for n in ALPHABET.chars() {
         if let Some(val) = buckets.get(&n) {
             print!("{}\t", val);
         }
     }
     println!();
-    
+
     for n in ALPHABET.chars() {
         if let Some(val) = buckets.get(&n) {
             let bar_height = *val as f32 / word_total as f32 * 100.0;
@@ -75,10 +76,8 @@ fn main() -> std::io::Result<()> {
         if let Some(_) = buckets.get(&n) {
             print!("{}\t", n);
         }
-
     }
     println!();
-    
-      
+
     Ok(())
 }
