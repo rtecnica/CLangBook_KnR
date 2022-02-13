@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
                     push(&bracket_stack, curly, line, col);
                 }
                 break;
-
+        
             case '}':
                 if(escape_flag && out_dquote && out_squote && !is_comment) {
                     if(check_bracket(&bracket_stack, curly)) {
