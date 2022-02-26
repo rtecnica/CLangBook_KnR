@@ -1,16 +1,18 @@
-struct WordEntry {
-    word: String,
+use std::fmt;
+
+#[derive(Debug)]
+pub struct WordEntry {
+    pub word: String,
     count: u32,
-    pages: Vec<u32>,
+    pub pages: Vec<u32>,
 }
 
 impl WordEntry {
-
-    pub fn new_from(word: String) -> WordEntry {
+    pub fn new_from(word: &String, page: &u32) -> WordEntry {
         return WordEntry {
-            word,
+            word: word.clone(),
             count: 1,
-            pages: vec![],
+            pages: vec![*page],
         };
     }
 
@@ -20,7 +22,7 @@ impl WordEntry {
 
     pub fn add_page(&mut self, page: u32) {
         let mut page_added = false;
-        for old_page in self.pages.iter() {
+        for old_page in &self.pages {
             if old_page == &page {
                 page_added = true;
             }
@@ -30,16 +32,27 @@ impl WordEntry {
         }
     }
 
-    pub fn compare_word_alph(&self, word: &WordEntry) -> i8 {
-        let mut ctr = 0;
-        for chartuple in self.word.chars().zip(word.word.chars()) {
-            if chartuple.0 > chartuple.1 {
-                ctr += 1;
-            }
-            if chartuple.0 < chartuple.1 {
-                ctr -= 1;
+    pub fn compare_word_alph(&self, word: &WordEntry) -> std::cmp::Ordering {
+        let lc_word = word.word.to_lowercase().as_str().to_owned();
+        let lc_self = self.word.to_lowercase().as_str().to_owned();
+
+        lc_self.cmp(&lc_word)
+    }
+
+    pub fn _sort_pages(&mut self) {
+        self.pages.sort()
+    }
+}
+
+impl fmt::Display for WordEntry {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        let mut pages = String::new();
+        for page in 0..self.pages.len() {
+            pages.push_str(&format!("{}", &self.pages[page]).to_string());
+            if page < (self.pages.len() - 1) {
+                pages.push_str(", ");
             }
         }
-        return ctr;
+        write!(f, "{} ({}): {}", self.word, self.count, pages)
     }
 }
