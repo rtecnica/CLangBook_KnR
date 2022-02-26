@@ -2,9 +2,9 @@ use std::fmt;
 
 #[derive(Debug)]
 pub struct WordEntry {
-    pub word: String,
+    word: String,
     count: u32,
-    pub pages: Vec<u32>,
+    pages: Vec<u32>,
 }
 
 impl WordEntry {
