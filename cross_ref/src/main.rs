@@ -22,10 +22,12 @@ fn main() -> std::io::Result<()> {
 
     let mut buf = String::new();
     file.read_to_string(&mut buf)?;
-    let mut stack: Vec<cross_ref::WordEntry> = Vec::new();
+    let mut crossref: Vec<cross_ref::WordEntry> = Vec::new();
+    
     let mut curr_pos = Position { line: 1, col: 0 };
-    let mut in_word = false;
     let mut curr_word = String::new();
+            let mut in_word = false;
+
     for c in buf.chars() {
         let holder: Vec<char> = c.to_lowercase().collect();
         let holder = holder[0];
@@ -39,15 +41,15 @@ fn main() -> std::io::Result<()> {
             if in_word {
                 let new_word = cross_ref::WordEntry::new_from(&curr_word, &curr_pos.line);
                 let mut new_entry = false;
-                for i in 0..stack.len() {
-                    if stack[i].compare_word_alph(&new_word) == Ordering::Equal {
-                        stack[i].count();
-                        stack[i].add_page(curr_pos.line);
+                for i in 0..crossref.len() {
+                    if crossref[i].compare_word_alph(&new_word) == Ordering::Equal {
+                        crossref[i].count();
+                        crossref[i].add_page(curr_pos.line);
                         new_entry = true;
                     }
                 }
                 if !new_entry {
-                    stack.push(new_word);
+                    crossref.push(new_word);
                 }
                 curr_word = String::new();
             }
@@ -61,8 +63,8 @@ fn main() -> std::io::Result<()> {
         curr_pos.col += 1;
     }
 
-    stack.sort_by(|a, b| a.compare_word_alph(b));
-    for entry in stack {
+    crossref.sort_by(|a, b| a.compare_word_alph(b));
+    for entry in crossref {
         println!("{}", entry);
     }
 
