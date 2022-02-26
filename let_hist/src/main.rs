@@ -6,7 +6,6 @@ use std::process;
 
 const BAR_HEIGHT: u8 = 20;
 const BAR_TOKEN: char = '#'; //'ﱢ';
-const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyz";
 
 fn main() -> std::io::Result<()> {
     let args: Vec<String> = env::args().collect();
@@ -27,13 +26,15 @@ fn main() -> std::io::Result<()> {
     for c in buf.chars() {
         if c.is_alphabetic() {
             let mut holder: u32 = 0;
-            if let Some(val) = buckets.get(&c) {
+            let cholder: Vec<char> = c.to_lowercase().collect();
+            let cholder = cholder[0];
+            if let Some(val) = buckets.get(&cholder) {
                 holder = *val;
             } else {
-                buckets.insert(c, 1);
+                buckets.insert(cholder, 1);
             }
             if holder != 0 {
-                buckets.insert(c, holder + 1);
+                buckets.insert(cholder, holder + 1);
             }
         }
     }
@@ -42,9 +43,14 @@ fn main() -> std::io::Result<()> {
     for val in buckets.values() {
         word_total += val;
     }
+
+    // Assemble index
+    let mut alph_idx: Vec<&char> = buckets.keys().collect();
+    alph_idx.sort();
+
     // Display Bars
     for b in 0..BAR_HEIGHT {
-        for n in ALPHABET.chars() {
+        for n in &alph_idx {
             if let Some(val) = buckets.get(&n) {
                 let bar_height = (*val as f32 / *buckets.values().max().unwrap_or(&1) as f32
                     * BAR_HEIGHT as f32) as u8;
@@ -58,26 +64,26 @@ fn main() -> std::io::Result<()> {
         println!();
     }
     println!();
-    for n in ALPHABET.chars() {
+    for n in &alph_idx {
         if let Some(val) = buckets.get(&n) {
             print!("{}\t", val);
         }
     }
     println!();
 
-    for n in ALPHABET.chars() {
+    for n in &alph_idx {
         if let Some(val) = buckets.get(&n) {
             let bar_height = *val as f32 / word_total as f32 * 100.0;
             print!("{:.2}%\t", bar_height);
         }
     }
     println!();
-    for n in ALPHABET.chars() {
+    for n in &alph_idx {
         if let Some(_) = buckets.get(&n) {
             print!("{}\t", n);
         }
     }
     println!();
-
+    println!("{} {}", buckets.len(), alph_idx.len());
     Ok(())
 }
