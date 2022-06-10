@@ -15,11 +15,10 @@ fn main() -> std::io::Result<()> {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
         eprintln!("Please input filename!");
-        process::exit(1);
+        process::exit(1)
     }
 
     let mut file = File::open(&args[1])?;
-
     let mut buf = String::new();
     file.read_to_string(&mut buf)?;
     let mut crossref: Vec<cross_ref::WordEntry> = Vec::new();

@@ -8,12 +8,12 @@ pub struct WordEntry {
 }
 
 impl WordEntry {
-    pub fn new_from(word: &String, page: &u32) -> WordEntry {
-        return WordEntry {
-            word: word.clone(),
+    pub fn new_from(word: &str, page: &u32) -> WordEntry {
+        WordEntry {
+            word: word.to_string(),
             count: 1,
             pages: vec![*page],
-        };
+        }
     }
 
     pub fn count(&mut self) {

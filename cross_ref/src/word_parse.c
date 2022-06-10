@@ -24,10 +24,8 @@ int compare_word_alph(void *item1, void *item2) {
     switch (expr) {
     case 1:
       return 1;
-      break;
     case -1:
       return -1;
-      break;
     default:
       break;
     }
